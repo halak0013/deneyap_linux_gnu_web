@@ -1,0 +1,3 @@
+ui/deneyap.glade
+src/MainWindow.py
+src/Installer.py

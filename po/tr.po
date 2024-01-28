@@ -1,0 +1,111 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-28 00:36+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ui/deneyap.glade:52
+msgid "Cancel"
+msgstr "İptal etmek"
+
+#: ui/deneyap.glade:66
+msgid "Ok"
+msgstr "Tamam"
+
+#: ui/deneyap.glade:89
+msgid "Label for port"
+msgstr "Bağlantı noktası etiketi"
+
+#: ui/deneyap.glade:161
+msgid "Kart:"
+msgstr "Kart:"
+
+#: ui/deneyap.glade:197
+msgid "main"
+msgstr "ana"
+
+#: ui/deneyap.glade:210
+msgid ""
+"You don't have Deneyap compiler on your system\n"
+"Do you want to install?"
+msgstr ""
+"Sisteminizde Deneyap derleyicisi yok\n"
+"Yüklemek istiyor musunuz?"
+
+#: ui/deneyap.glade:222
+msgid "Install"
+msgstr "Düzenlemek"
+
+#: ui/deneyap.glade:238
+msgid "install"
+msgstr "düzenlemek"
+
+#: ui/deneyap.glade:304
+msgid "Detial"
+msgstr "Ayrıntı"
+
+#: ui/deneyap.glade:318
+msgid "None"
+msgstr "Hiçbiri"
+
+#: ui/deneyap.glade:333
+msgid "wait"
+msgstr "Beklemek"
+
+#: ui/deneyap.glade:350
+msgid "Deneyap"
+msgstr "Deneyap"
+
+#: src/MainWindow.py:73
+msgid "Quit"
+msgstr "Çıkış yapmak"
+
+#: src/MainWindow.py:77
+msgid "Open"
+msgstr "Açık"
+
+#: src/Installer.py:21
+msgid "Generating project path..."
+msgstr "Proje yolu oluşturuluyor..."
+
+#: src/Installer.py:25
+msgid "Downloading arduino-cli and installing..."
+msgstr "Arduino-cli indiriliyor ve kuruluyor..."
+
+#: src/Installer.py:28
+msgid "Downloading Deneyap Board core..."
+msgstr "Deneyap Board çekirdeği indiriliyor..."
+
+#: src/Installer.py:33
+msgid "Deneyap Board configuration preaparing..."
+msgstr "Deneyap Board konfigürasyonu hazırlanıyor..."
+
+#: src/Installer.py:38
+msgid "Deneyap Board core installing..."
+msgstr "Deneyap Board çekirdek kurulumu..."
+
+#: src/Installer.py:41
+msgid "Deneyap Board index updating..."
+msgstr "Deneyap Board indeksi güncelleniyor..."
+
+#: src/Installer.py:94
+#, python-brace-format
+msgid ""
+"You don't have permission to use {port} port.\n"
+"Do you want to give permission."
+msgstr ""
+"{port} bağlantı noktasını kullanma izniniz yok.\n"
+"İzin mi vermek istiyorsunuz?"

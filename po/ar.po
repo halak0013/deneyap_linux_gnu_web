@@ -1,0 +1,111 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-28 00:36+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ui/deneyap.glade:52
+msgid "Cancel"
+msgstr "يلغي"
+
+#: ui/deneyap.glade:66
+msgid "Ok"
+msgstr "نعم"
+
+#: ui/deneyap.glade:89
+msgid "Label for port"
+msgstr "تسمية للميناء"
+
+#: ui/deneyap.glade:161
+msgid "Kart:"
+msgstr "كارت:"
+
+#: ui/deneyap.glade:197
+msgid "main"
+msgstr "رئيسي"
+
+#: ui/deneyap.glade:210
+msgid ""
+"You don't have Deneyap compiler on your system\n"
+"Do you want to install?"
+msgstr ""
+"ليس لديك مترجم Deneyap على نظامك\n"
+"هل تريد التثبيت؟"
+
+#: ui/deneyap.glade:222
+msgid "Install"
+msgstr "ثَبَّتَ"
+
+#: ui/deneyap.glade:238
+msgid "install"
+msgstr "ثَبَّتَ"
+
+#: ui/deneyap.glade:304
+msgid "Detial"
+msgstr "ديتيال"
+
+#: ui/deneyap.glade:318
+msgid "None"
+msgstr "لا أحد"
+
+#: ui/deneyap.glade:333
+msgid "wait"
+msgstr "انتظر"
+
+#: ui/deneyap.glade:350
+msgid "Deneyap"
+msgstr "دينياب"
+
+#: src/MainWindow.py:73
+msgid "Quit"
+msgstr "يترك"
+
+#: src/MainWindow.py:77
+msgid "Open"
+msgstr "يفتح"
+
+#: src/Installer.py:21
+msgid "Generating project path..."
+msgstr "جارٍ إنشاء مسار المشروع..."
+
+#: src/Installer.py:25
+msgid "Downloading arduino-cli and installing..."
+msgstr "تحميل وتثبيت الاردوينو cli..."
+
+#: src/Installer.py:28
+msgid "Downloading Deneyap Board core..."
+msgstr "جارٍ تنزيل Deneyap Board الأساسية..."
+
+#: src/Installer.py:33
+msgid "Deneyap Board configuration preaparing..."
+msgstr "إعداد تكوين لوحة Deneyap..."
+
+#: src/Installer.py:38
+msgid "Deneyap Board core installing..."
+msgstr "تثبيت لوحة Deneyap الأساسية..."
+
+#: src/Installer.py:41
+msgid "Deneyap Board index updating..."
+msgstr "تحديث فهرس لوحة Deneyap..."
+
+#: src/Installer.py:94
+#, python-brace-format
+msgid ""
+"You don't have permission to use {port} port.\n"
+"Do you want to give permission."
+msgstr ""
+"ليس لديك إذن لاستخدام منفذ {port}.\n"
+"هل تريد إعطاء الإذن."

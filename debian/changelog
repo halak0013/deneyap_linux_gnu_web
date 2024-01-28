@@ -1,0 +1,11 @@
+deneyap (1.0) stable; urgency=medium
+
+  [ Muhammet Halak ]
+  * Deneyap board list
+  * added app tray icon
+  * edited deb config file
+  * downloader and command runner defined
+  * static command, paths and permission defined
+  * basic ui designed
+
+ -- Muhammet Halak <halak@vuhuv.com>  Sun, 28 Jan 2023 00:00:13 +0300

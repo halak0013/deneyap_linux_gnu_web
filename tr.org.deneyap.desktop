@@ -1,0 +1,14 @@
+[Desktop Entry]
+Name=Deneyap
+Name[tr]=Deneyap
+GenericName=Deneyap
+GenericName[tr]=Deneyap
+Comment=Commincate web block with yor Deneyap board.
+Comment[tr]=web blok ile Deneyap kartınızı iletişim kurun.
+Exec=deneyap
+Icon=deneyap
+Terminal=false
+Type=Application
+Categories=GTK;Development;Education;Electronics;Science;
+StartupNotify=true
+Keywords=deneyap;kart;arduino;block;web;ide;programlama;program;
