@@ -3,12 +3,15 @@ from locale import gettext as _
 import os
 import gi
 import asyncio
-from threading import Thread
-
-from AsyncProc import CommandRunner
-from Installer import Installer
 gi.require_version('Gtk', '3.0')
+
+from threading import Thread
+from Proccess import Process
+
 from gi.repository import GLib, Gio, Gtk
+from Installer import Installer
+from WebSocket import WebSocket
+# https://github.com/pardus/pardus-update/blob/f53931dcdb9743ec0bcf7f5574bcddc3d8246c2a/src/MainWindow.py#L23
 try:
     gi.require_version('AppIndicator3', '0.1')
     from gi.repository import AppIndicator3
@@ -46,9 +49,9 @@ class MainWindow(Gtk.Window):
         self.window.set_position(Gtk.WindowPosition.CENTER)
         self.window.set_application(application)
         self.window.set_default_size(400, 300)
-        #self.window.connect('destroy', application.onExit)
+        # self.window.connect('destroy', application.onExit)
         self.window.connect("delete-event", self.on_delete_event)
-        #self.window.set_wmclass("my_app", "MyApp")
+        # self.window.set_wmclass("my_app", "MyApp")
 
         self.defineComponents()
 
@@ -57,16 +60,17 @@ class MainWindow(Gtk.Window):
         self.window.show_all()
 
     def init_variables(self):
+        self.ins = Installer(self.dialog_info)
+        self.pro = Process(self.message_dialog_port)
+
         self.indicator = AppIndicator3.Indicator.new(
             "notifier",
             os.path.dirname(
-            os.path.abspath(__file__)) + "/../data/deneyap.svg",  # İkonunuzun dosya yolunu buraya ekleyin
+                os.path.abspath(__file__)) + "/../data/deneyap.svg",  # İkonunuzun dosya yolunu buraya ekleyin
             AppIndicator3.IndicatorCategory.APPLICATION_STATUS
         )
         self.indicator.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
         self.indicator.set_title("Deneyap")
-
-        
 
         self.menu = Gtk.Menu()
 
@@ -81,9 +85,15 @@ class MainWindow(Gtk.Window):
         self.menu.show_all()
         self.indicator.set_menu(self.menu)
 
-        self.ins = Installer(self.message_dialog)
-        Thread(target=self.fill_cmb(self.cmb_board)).start()
-        
+        if not self.ins.check():
+            self.stack_main.set_visible_child_name("install")
+        else:
+            self.stack_main.set_visible_child_name("main")
+            asyncio.run(self.board_info())
+            Thread(target=self.startWebsocket).start()
+    
+    def startWebsocket(self):
+        WebSocket("localhost", 49182, self.pro)
 
     def defineComponents(self):
         self.btn_about: Gtk.Button = self.builder.get_object("btn_about")
@@ -97,18 +107,21 @@ class MainWindow(Gtk.Window):
         self.lb_dialog_wait_status: Gtk.Label = self.builder.get_object(
             "lb_dialog_wait_status")
 
+        self.lb_board_info: Gtk.Label = self.builder.get_object(
+            "lb_board_info")
+
         self.btn_install: Gtk.Button = self.builder.get_object("btn_install")
-        self.cmb_board: Gtk.ComboBox = self.builder.get_object("cmb_board")
 
-        self.message_dialog: Gtk.Dialog = self.builder.get_object("message_dialog")
+        self.message_dialog_port: Gtk.MessageDialog = self.builder.get_object(
+            "message_dialog_port")
+        self.dialog_info: Gtk.MessageDialog = self.builder.get_object(
+            "dialog_info")
+        
 
-    def fill_cmb(self, cmb):
-        cmb.remove_all()
-        lst=asyncio.run(self.ins.board_name()).keys()
-        #print(lst)
-        for c in lst:
-            cmb.append_text(c)
-        cmb.set_active(0)
+    async def board_info(self):
+        b_info = await self.pro.board_infos()
+        print("*",b_info)
+        GLib.idle_add(self.lb_board_info.set_text, b_info)
 
     def on_btn_about_clicked(self, b):
         self.dialog_about.set_visible(True)
@@ -118,22 +131,26 @@ class MainWindow(Gtk.Window):
 
     def on_btn_install_clicked(self, b):
         self.stack_main.set_visible_child_name("wait")
-        GLib.idle_add(asyncio.run(self.ins.install(self.lb_dialog_wait_status, self.lb_subpro_output)))
+        Thread.run(asyncio.run(self.ins.install(
+            self.lb_dialog_wait_status, self.lb_subpro_output)))
 
     def on_btn_msg_cancel_clicked(self, b):
-        self.message_dialog.set_visible(False)
+        self.message_dialog_port.set_visible(False)
 
     def on_btn_msg_ok_clicked(self, b):
-        asyncio.run(self.ins.add_port_permission(self.message_dialog))
+        asyncio.run(self.ins.add_port_permission(self.message_dialog_port))
+
+    def on_bt_dialog_info_clicked(self, b):
+        self.dialog_info.set_visible(False)
 
     def destroy(self, b):
         self.window.destroy()
 
     def on_delete_event(self, widget, event):
-            # Uygulama kapatılmak istendiğinde sadece pencereyi gizle
-            print("delete-event")
-            self.window.hide_on_delete()
-            return True
-    
+        # Uygulama kapatılmak istendiğinde sadece pencereyi gizle
+        print("delete-event")
+        self.window.hide_on_delete()
+        return True
+
     def on_open_item_activate(self, b):
         self.window.show()

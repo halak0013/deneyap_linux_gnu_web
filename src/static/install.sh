@@ -67,6 +67,10 @@ lsusb | grep "Turkish Technnology Team Foundation" | cut -d' ' -f12-
 #lsusb | grep "Turkish Technnology Team Foundation"
 #Bus 001 Device 010: ID 303a:8141 Turkish Technnology Team Foundation (T3) DENEYAP MINI
 
+arduino-cli board list --format json
+
+
+
 
 arduino-cli compile --fqbn deneyap:esp32:dym_mpv10 MyFirstSketch
 arduino-cli upload -p /dev/ttyACM0 --fqbn deneyap:esp32:dym_mpv10 MyFirstSketch
