@@ -13,7 +13,6 @@ class Paths:
 
     log_path = HOME+"/.deneyap/log/"
 
-
     deneyap_url = "https://raw.githubusercontent.com/deneyapkart/deneyapkart-arduino-core/master/package_deneyapkart_index.json"
     d_json_name = "package_deneyapkart_index.json"
     d_json_path = arduino15_path+d_json_name
@@ -21,9 +20,10 @@ class Paths:
     deneyap_pro = "/tmp/deneyap/deneyap_pro/"
     deneyap_p_f = "/tmp/deneyap/"
 
-    AGENT_VERSION = "1.0.3"
-
     @classmethod
-    def file_check(self, path):
+    def file_check(self, path, reset=False):
         if not os.path.exists(path):
+            os.makedirs(path)
+        elif reset:
+            os.system("rm -rf "+path)
             os.makedirs(path)

@@ -16,7 +16,6 @@ class Commands:
 
     port_user_permission = "sudo adduser "+p.HOME.split("/")[2]+" dialout"
 
-    port = ""
 
     @classmethod
     def add_port_permission(self, port):
@@ -24,11 +23,11 @@ class Commands:
 
     @classmethod
     def compile_code(self, board):
-        return self.arduino_cli + "compile --fqbn " + board + "deneyap_pro"
+        return p.arduino_cli + "compile --fqbn " + board + " deneyap_pro"
 
     @classmethod
     def upload_code(self, port, board):
-        return f"upload -p {port} --fqbn {board} deneyap_pro"
+        return f"{p.arduino_cli} upload -p {port} --fqbn {board} deneyap_pro"
     
     @classmethod
     def check_port_permission(self, port):
@@ -36,11 +35,11 @@ class Commands:
     
     @classmethod
     def search_lib(self, lib):
-        return "arduino-cli lib search \"" + lib +"\" --format json"
+        return f"{p.arduino_cli} lib search \"{lib}\" --format json"
     
     @classmethod
     def download_lib(self, lib, version):
-        return "arduino-cli lib install \"" + lib + "\"@" + version
+        return f"{p.arduino_cli} lib install \"{lib}\"@{version}"
 
     def __init__(self):
         print(Commands.port_user_permission)
