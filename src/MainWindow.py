@@ -1,3 +1,4 @@
+#Bismillahirrahmanirrahim
 import locale
 from locale import gettext as _
 import os
@@ -6,11 +7,12 @@ import asyncio
 gi.require_version('Gtk', '3.0')
 
 from threading import Thread
-from Proccess import Process
+from utils.Proccess import Process
 
 from gi.repository import GLib, Gio, Gtk
-from Installer import Installer
-from WebSocket import WebSocket
+from utils.Installer import Installer
+from utils.socket_con.WebSocket import WebSocket
+from utils.socket_con.SerialMonitorWebsocket import SerialMonitorWebsocket
 # https://github.com/pardus/pardus-update/blob/f53931dcdb9743ec0bcf7f5574bcddc3d8246c2a/src/MainWindow.py#L23
 try:
     gi.require_version('AppIndicator3', '0.1')
@@ -93,7 +95,13 @@ class MainWindow(Gtk.Window):
             Thread(target=self.startWebsocket).start()
     
     def startWebsocket(self):
-        WebSocket("localhost", 49182, self.pro)
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        w = WebSocket(self.pro)
+        ws = SerialMonitorWebsocket(self.pro)
+        loop.run_until_complete(w.start_server("localhost", 49182))
+        loop.run_until_complete(ws.start_server("localhost", 49183))
+        loop.run_forever()
 
     def defineComponents(self):
         self.btn_about: Gtk.Button = self.builder.get_object("btn_about")
@@ -119,8 +127,7 @@ class MainWindow(Gtk.Window):
         
 
     async def board_info(self):
-        b_info = await self.pro.board_infos()
-        print("*",b_info)
+        b_info = await self.pro.ui_board_infos()
         GLib.idle_add(self.lb_board_info.set_text, b_info)
 
     def on_btn_about_clicked(self, b):

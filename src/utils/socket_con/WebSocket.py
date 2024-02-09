@@ -3,44 +3,38 @@ import json
 import websockets
 from multiprocessing import Queue
 from common.Logging import Log
-from Proccess import Process
 
 
 class WebSocket:
     
-    def __init__(self, url, port, pro):
+    def __init__(self, pro):
         print("WebSocket started")
         self.queue = Queue() # TODO: ileride eklenebilir
         self.log = Log()
         self.websocket = None
         self.pro = pro
-        self.ws = websockets.serve(self.mainLoop, url, port)
-        asyncio.get_event_loop().run_until_complete(self.mainLoop)
-        asyncio.get_event_loop().run_forever()
+    async def start_server(self, url, port):
+        await websockets.serve(self.mainLoop, url, port)
 
     async def mainLoop(self, websocket, path):
         # TODO: kuyruk eklenebilir
         self.websocket = websocket
         try:
             while True:
-                body = {"command":None}
-                msg = await asyncio.wait_for(self.ws.recv(), timeout=1)
+                body = {"command": None}
+                #msg = await asyncio.wait_for(websocket.recv(), timeout=5)
+                msg = await websocket.recv()
+                print("msg", msg)
                 body = json.loads(msg)
                 await self.commandParser(body)
 
         except Exception as e:
+            print("armut")
             self.log.log(str(e), "e")
             print(e)
+            raise e
 
     async def commandParser(self, body: dict) -> None:
-        """
-        message send from front-end is first comes to here to redirect appropriate function
-        messages related to main communication comes to this class. other messages goes to SerialMonitor class.
-        upload message is sent both this class and SerialMonitor class. when new code is uploading serial monitor has to be closed.
-
-        :param body: data that sent from front-end. %100 has 'command' other keys are depended on command
-        :type body: dict
-        """
         command = body['command']
         res = None
 
@@ -48,11 +42,11 @@ class WebSocket:
             return
         else:
             await self.sendResponse()
-
         if command == "upload":
-            await self.pro.compile_upload(body['board'], body['port'], body["code"])
+            await self.pro.compile_upload(body['board'], body['port'], body["code"], self.websocket)
         elif command == "compile":
-            await self.pro.compile_upload(body['board'], body['port'])
+            #await self.pro.compile_upload(body['board'], body['port'], body["code"])
+            await self.pro.compile_code(body['board'], body['code'], self.websocket)
         elif command == "getBoards":
             res = await self.pro.board_infos()
         elif command == "getVersion":
@@ -66,8 +60,10 @@ class WebSocket:
             res = await self.pro.download_lib(body['libName'], body['libVersion'])
         elif command == "getCoreVersion":
             res = await self.pro.get_core_version()
-
-        await self.websocket.send(res)
+        await asyncio.sleep(1)
+        if res != None:
+            print("res", res)
+            await self.websocket.send(res)
 
     async def sendResponse(self) -> None:
         bodyToSend = {"command": "response"}

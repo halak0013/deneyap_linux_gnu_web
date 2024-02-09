@@ -1,6 +1,6 @@
 import yaml
 from locale import gettext as _
-from gi.repository import GLib, Gtk
+from gi.repository import Gtk
 from static.commands import Commands as co
 from static.file_paths import Paths as p
 from common.AsyncProc import AsyncFileDownloader, CommandRunner

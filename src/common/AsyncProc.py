@@ -1,3 +1,5 @@
+import json
+import re
 from static.commands import Commands as co
 
 import requests
@@ -22,7 +24,7 @@ class AsyncFileDownloader:
 
 class CommandRunner:
 
-    async def run_command(self, command):
+    async def run_command(self, command, websocket=None):
         process = await asyncio.create_subprocess_shell(
             command,
             stdout=asyncio.subprocess.PIPE,
@@ -36,9 +38,11 @@ class CommandRunner:
             line = await process.stdout.readline()
             if not line:
                 break
-            line = line.decode().rstrip()  # Satır sonundaki newline karakterini kaldır
+            line = line.decode("utf-8").rstrip()  # Satır sonundaki newline karakterini kaldır
             print(line)
             output += line + '\n'
+            if websocket:
+                await websocket.send(json.dumps({"command": "consoleLog", "log": self.remove_ansi_color_codes(line)+"\n"}))
 
         # Hata çıktısını oku
         error = await process.stderr.read()
@@ -46,3 +50,7 @@ class CommandRunner:
             print("Hata:", error.decode())
 
         return output
+
+    def remove_ansi_color_codes(self, text):
+        ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
+        return ansi_escape.sub('', text)
