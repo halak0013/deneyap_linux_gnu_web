@@ -10,6 +10,7 @@ class Commands:
     a_cli_update_index = p.arduino_cli+"core update-index"
     a_cli_board_list = p.arduino_cli+"board list --format json"
     a_cli_board_list_all = p.arduino_cli+"board listall deneyap --format json"
+    a_cil_add_deneyap_url = p.arduino_cli+"config add board_manager.additional_urls "+p.deneyap_url
 
 
     deneyap_board = 'lsusb | grep "Turkish Technnology Team Foundation"'

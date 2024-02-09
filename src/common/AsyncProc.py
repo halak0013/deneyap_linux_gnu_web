@@ -14,17 +14,22 @@ gi.require_version("Gtk", "3.0")
 class AsyncFileDownloader:
 
     async def download_data(self, url, path, name):
-        r = requests.get(url, stream=True)
+        try:
+            r = requests.get(url, stream=True)
 
-        with open(path+name, "wb") as f:
-            for c in r.iter_content(chunk_size=1024):
-                if c:
-                    f.write(c)
+            with open(path+name, "wb") as f:
+                for c in r.iter_content(chunk_size=1024):
+                    if c:
+                        f.write(c)
+        except Exception as e:
+            print(e)
+            raise e
 
 
 class CommandRunner:
 
     async def run_command(self, command, websocket=None):
+        print("Running command:", command)
         process = await asyncio.create_subprocess_shell(
             command,
             stdout=asyncio.subprocess.PIPE,

@@ -85,11 +85,11 @@ class Process:
     
     async def ui_board_infos(self):
         b_info = await self.board_infos()
-        res=""
+        res="\n"
 
         for b in json.loads(b_info)["boards"]:
-            res += f"{b["port"]}: {_("Unknown")}\n"
-        res = f"{_("App version")}: {cf.AGENT_VERSION}: {res}"
+            res += b["port"] +": "+ _("Unknown") + "\n"
+        res = _("App version")+f": {cf.AGENT_VERSION}: {res}"
         return res
 
     async def add_port_permission(self):

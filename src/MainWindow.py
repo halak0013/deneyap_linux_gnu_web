@@ -1,18 +1,18 @@
 #Bismillahirrahmanirrahim
+from utils.socket_con.SerialMonitorWebsocket import SerialMonitorWebsocket
+from utils.socket_con.WebSocket import WebSocket
+from utils.Installer import Installer
+from utils.Proccess import Process
+from threading import Thread
 import locale
 from locale import gettext as _
 import os
 import gi
 import asyncio
 gi.require_version('Gtk', '3.0')
+from gi.repository import GLib, Gtk
 
-from threading import Thread
-from utils.Proccess import Process
 
-from gi.repository import GLib, Gio, Gtk
-from utils.Installer import Installer
-from utils.socket_con.WebSocket import WebSocket
-from utils.socket_con.SerialMonitorWebsocket import SerialMonitorWebsocket
 # https://github.com/pardus/pardus-update/blob/f53931dcdb9743ec0bcf7f5574bcddc3d8246c2a/src/MainWindow.py#L23
 try:
     gi.require_version('AppIndicator3', '0.1')
@@ -61,6 +61,8 @@ class MainWindow(Gtk.Window):
 
         self.window.show_all()
 
+        self.stck_swither.hide()
+
     def init_variables(self):
         self.ins = Installer(self.dialog_info)
         self.pro = Process(self.message_dialog_port)
@@ -93,7 +95,7 @@ class MainWindow(Gtk.Window):
             self.stack_main.set_visible_child_name("main")
             asyncio.run(self.board_info())
             Thread(target=self.startWebsocket).start()
-    
+
     def startWebsocket(self):
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
@@ -109,6 +111,7 @@ class MainWindow(Gtk.Window):
             "dialog_about")
 
         self.stack_main: Gtk.Stack = self.builder.get_object("stack_main")
+        self.stck_swither = self.builder.get_object("stck_swither")
 
         self.lb_subpro_output: Gtk.Label = self.builder.get_object(
             "lb_subpro_output")
@@ -124,7 +127,6 @@ class MainWindow(Gtk.Window):
             "message_dialog_port")
         self.dialog_info: Gtk.MessageDialog = self.builder.get_object(
             "dialog_info")
-        
 
     async def board_info(self):
         b_info = await self.pro.ui_board_infos()
@@ -138,8 +140,11 @@ class MainWindow(Gtk.Window):
 
     def on_btn_install_clicked(self, b):
         self.stack_main.set_visible_child_name("wait")
-        Thread.run(asyncio.run(self.ins.install(
-            self.lb_dialog_wait_status, self.lb_subpro_output)))
+        Thread(target= self.install_cli).start()
+    
+    def install_cli(self):
+        asyncio.run(self.ins.install(
+            self.lb_dialog_wait_status, self.lb_subpro_output,self.stack_main))
 
     def on_btn_msg_cancel_clicked(self, b):
         self.message_dialog_port.set_visible(False)
