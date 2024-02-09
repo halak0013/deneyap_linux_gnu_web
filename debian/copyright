@@ -1,7 +1,7 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: deneyap
 Upstream-Contact: Muhammet Halak <halak@vuhuv.com>
-Source: https://github.com/halak0013/deneyap_linux_web
+Source: https://github.com/halak0013/deneyap_linux_gnu_web
 
 
 Files: *

@@ -78,5 +78,5 @@ setup(
     description="Deneyap web communication for Linux Pardus",
     license="GPLv3",
     keywords="deneyap, kart, pardus",
-    url="https://github.com/halak0013/deneyap_linux_web",
+    url="https://github.com/halak0013/deneyap_linux_gnu_web",
 )
