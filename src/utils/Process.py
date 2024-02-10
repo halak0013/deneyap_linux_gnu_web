@@ -4,30 +4,26 @@ from static.commands import Commands as co
 from static.configs import Configs as cf
 from static.file_paths import Paths as p
 from common.AsyncProc import CommandRunner
-
+from common.Logging import Log
 import os
 
 
 class Process:
-    # TODO: buralara loglama eklenecek
-    # TODO: çalışan kod çıktıları loglanacak
-    # TODO: hata durumlarında belirlenecek
     def __init__(self, messageDialog):
         self.cr = CommandRunner()
         self.messageDialog = messageDialog
+        self.l=Log()
 
     async def compile_code(self, board, code, websocket):
-        # TODO: hata olduğunda mesaj dialog açıtrıp tekar reset atma istenebilir
         cf.board = board
         p.file_check(p.deneyap_pro)
         os.chdir(p.deneyap_pro)
         with open("deneyap_pro.ino", "w") as f:
             f.write(code)
         os.chdir(p.deneyap_p_f)
-        print(os.getcwd(), co.compile_code(cf.deneyap_esp + board))
         bodyToSend = {"command": "cleanConsoleLog", "log": "Compling Code...\n"}
         await websocket.send(json.dumps(bodyToSend))
-        await self.cr.run_command(co.compile_code(cf.deneyap_esp + board), websocket)
+        await self.cr.run_command(co.compile_code(cf.deneyap_esp + board), websocket = websocket)
 
     async def compile_upload(self, board, port, code, websocket):
         cf.port = port
@@ -35,16 +31,14 @@ class Process:
         await self.check_port_permission()
         await self.compile_code(board, code, websocket)
 
-        await self.cr.run_command(co.upload_code(port, cf.deneyap_esp + board), websocket)
+        await self.cr.run_command(co.upload_code(port, cf.deneyap_esp + board), websocket = websocket)
 
     async def board_infos(self):
         boards = await self.cr.run_command(co.a_cli_board_list)
-        print(boards)
         body = {"command": "returnBoards", "boards": []}
         u = _("Unknown")
         for p in json.loads(boards):
             body["boards"].append({"boardName": u, "port": p['port']['label']})
-        print(body)
         return json.dumps(body)
 
     async def get_core_version(self):

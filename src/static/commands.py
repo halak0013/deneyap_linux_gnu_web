@@ -41,9 +41,3 @@ class Commands:
     @classmethod
     def download_lib(self, lib, version):
         return f"{p.arduino_cli} lib install \"{lib}\"@{version}"
-
-    def __init__(self):
-        print(Commands.port_user_permission)
-
-
-c = Commands()

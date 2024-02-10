@@ -6,10 +6,13 @@ from static.configs import Configs as cf
 
 from common.Logging import Log
 
+# https://github.com/deneyapkart/Deneyap-Kart-Web/blob/main/SerialMonitorWebsocket.py
+
+
 class SerialMonitorWebsocket:
     def __init__(self, pro):
         print("WebSocket started")
-        self.log = Log()
+        self.l = Log()
         self.websocket = None
         self.serialOpen = False
         self.ser = None
@@ -24,27 +27,27 @@ class SerialMonitorWebsocket:
             try:
                 if not self.serialOpen:
                     await asyncio.sleep(.3)
-
-                body = {"command":None}
-
+                body = {"command": None}
                 try:
-                    message= await asyncio.wait_for(self.websocket.recv(), timeout=0.000001)
-                    self.log.log(f"SerialMonitorWebsocket received {message}","i")
+                    message = await asyncio.wait_for(self.websocket.recv(), timeout=0.000001)
+                    self.l.log(
+                        f"SerialMonitorWebsocket received {message}", "i")
                     body = json.loads(message)
 
-                except (asyncio.TimeoutError, ConnectionRefusedError):
+                except (asyncio.TimeoutError, ConnectionRefusedError) as e:
                     if self.serialOpen:
+                        self.l.log("Serial Monitor Timeout Error: ", str(e))
                         await self.serialLog()
 
                 await self.commandParser(body)
 
             except Exception as e:
-                self.log.log("Serial Monitor Error: ","e")
+                self.l.log("Serial Monitor Error: ", "e")
                 bodyToSend = {"command": "serialLog", "log": str(e)+"\n"}
                 bodyToSend = json.dumps(bodyToSend)
                 await self.websocket.send(bodyToSend)
 
-    async def commandParser(self, body:dict) -> None:
+    async def commandParser(self, body: dict) -> None:
 
         command = body['command']
 
@@ -66,19 +69,18 @@ class SerialMonitorWebsocket:
 
         bodyToSend = {"command": "response"}
         bodyToSend = json.dumps(bodyToSend)
-        self.log.log("SerialMonitorWebsocket sending response back","i")
+        self.l.log("SerialMonitorWebsocket sending response back", "i")
         await self.websocket.send(bodyToSend)
 
-    def serialWrite(self, text:str) -> None:
+    def serialWrite(self, text: str) -> None:
 
         if self.serialOpen:
-            self.log.log(f"Writing to serial, data:{text}","i")
+            self.l.log(f"Writing to serial, data:{text}", "i")
             self.ser.write(text.encode("utf-8"))
 
-    def openSerialMontor(self, port:str, baudRate:int) -> None:
+    def openSerialMontor(self, port: str, baudRate: int) -> None:
 
-        self.log.log("Opening serial monitor","i")
-        print("Opening serial monitor",cf.board)
+        self.l.log("Opening serial monitor", "i")
         if not self.serialOpen:
             self.serialOpen = True
 
@@ -102,18 +104,15 @@ class SerialMonitorWebsocket:
                 self.ser.open()
 
             else:
-                 self.ser.setDTR(True)
-                 self.ser.setRTS(True)
-                 self.ser.open()
+                self.ser.setDTR(True)
+                self.ser.setRTS(True)
+                self.ser.open()
 
     async def closeSerialMonitor(self) -> None:
-        """
-        closes serial monitor.
-        """
-        self.log.log("Closing serial monitor","i")
+        self.l.log("Closing serial monitor", "i")
         if self.serialOpen and self.ser != None:
             self.ser.close()
-            bodyToSend = {"command":"closeSerialMonitor"}
+            bodyToSend = {"command": "closeSerialMonitor"}
             bodyToSend = json.dumps(bodyToSend)
             await self.websocket.send(bodyToSend)
 
@@ -131,6 +130,6 @@ class SerialMonitorWebsocket:
                 return
             if line == "":
                 return
-            bodyToSend = {"command":"serialLog", "log":line}
+            bodyToSend = {"command": "serialLog", "log": line}
             bodyToSend = json.dumps(bodyToSend)
             await self.websocket.send(bodyToSend)

@@ -2,7 +2,7 @@
 from utils.socket_con.SerialMonitorWebsocket import SerialMonitorWebsocket
 from utils.socket_con.WebSocket import WebSocket
 from utils.Installer import Installer
-from utils.Proccess import Process
+from utils.Process import Process
 from threading import Thread
 import locale
 from locale import gettext as _
@@ -10,7 +10,7 @@ import os
 import gi
 import asyncio
 gi.require_version('Gtk', '3.0')
-from gi.repository import GLib, Gtk
+from gi.repository import GLib, Gtk, Gio
 
 
 # https://github.com/pardus/pardus-update/blob/f53931dcdb9743ec0bcf7f5574bcddc3d8246c2a/src/MainWindow.py#L23
@@ -97,6 +97,7 @@ class MainWindow(Gtk.Window):
             Thread(target=self.startWebsocket).start()
 
     def startWebsocket(self):
+        #loop = GLib.MainLoop() değiştirilebilir
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
         w = WebSocket(self.pro)
@@ -144,7 +145,12 @@ class MainWindow(Gtk.Window):
     
     def install_cli(self):
         asyncio.run(self.ins.install(
-            self.lb_dialog_wait_status, self.lb_subpro_output,self.stack_main))
+            self.lb_dialog_wait_status, self.lb_subpro_output))
+        
+    def startMain(self):
+        self.stack_main.set_visible_child_name("main")
+        asyncio.run(self.board_info())
+        Thread(target=self.startWebsocket).start()
 
     def on_btn_msg_cancel_clicked(self, b):
         self.message_dialog_port.set_visible(False)
@@ -159,8 +165,7 @@ class MainWindow(Gtk.Window):
         self.window.destroy()
 
     def on_delete_event(self, widget, event):
-        # Uygulama kapatılmak istendiğinde sadece pencereyi gizle
-        print("delete-event")
+        # it hides the window
         self.window.hide_on_delete()
         return True
 

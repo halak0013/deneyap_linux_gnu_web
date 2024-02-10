@@ -1,10 +1,8 @@
 import json
 import re
-from static.commands import Commands as co
-
+from common.Logging import Log
 import requests
 import os
-import asyncio
 import subprocess
 
 import gi
@@ -27,32 +25,39 @@ class AsyncFileDownloader:
 
 
 class CommandRunner:
+    def __init__(self):
+        self.l = Log()
 
-    async def run_command(self, command, websocket=None):
-        print("Running command:", command)
-        process = await asyncio.create_subprocess_shell(
+    async def run_command(self, command, websocket=None, print_on_ui=None):
+        self.l.log("Running command: " + command, "i")
+        process = subprocess.Popen(
             command,
-            stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.PIPE,
+            shell=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True,
             env=os.environ.copy(),
             preexec_fn=os.setsid
         )
 
         output = ""
         while True:
-            line = await process.stdout.readline()
+            line = process.stdout.readline()
             if not line:
                 break
-            line = line.decode("utf-8").rstrip()  # Satır sonundaki newline karakterini kaldır
-            print(line)
+            # Satır sonundaki newline karakterini kaldır
+            line = line.rstrip()
+            self.l.log(line, "i")
+            if print_on_ui:
+                print_on_ui(line)
             output += line + '\n'
             if websocket:
                 await websocket.send(json.dumps({"command": "consoleLog", "log": self.remove_ansi_color_codes(line)+"\n"}))
 
         # Hata çıktısını oku
-        error = await process.stderr.read()
+        error = process.stderr.read()
         if error:
-            print("Hata:", error.decode())
+            self.l.log("Subprocces error: " + error.decode(), "e")
 
         return output
 
