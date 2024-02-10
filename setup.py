@@ -21,6 +21,7 @@ def generate_mo_files():
                        ["po/" + po.split(".po")[0] + "/LC_MESSAGES/deneyap.mo"]))
     return mo
 
+
 changelog = "debian/changelog"
 if os.path.exists(changelog):
     head = open(changelog).readline()
@@ -51,13 +52,28 @@ data_files = [
      ["ui/deneyap.glade"]),
 
     ("/usr/share/deneyap/src",
-     ["src/AsyncProc.py",
-      "src/Installer.py",
-      "src/MainWindow.py",
+     ["src/MainWindow.py",
       "src/Main.py",]),
+
+    ("/usr/share/deneyap/src/utils",
+     ["src/utils/Installer.py",
+      "src/utils/Process.py"
+      ]),
+
+    ("/usr/share/deneyap/src/utils/socket_con",
+     ["src/utils/socket_con/WebSocket.py",
+      "src/utils/socket_con/SerialMonitorWebsocket.py"
+      ]),
 
     ("/usr/share/deneyap/src/static",
      ["src/static/commands.py",
+      "src/static/configs.py",
+      "src/static//file_paths.py"
+      ]),
+
+    ("/usr/share/deneyap/src/common",
+     ["src/common/AsyncProc.py",
+      "src/common/Logging.py"
       ]),
 
     ("/usr/share/deneyap/data",
@@ -71,7 +87,8 @@ setup(
     version=version,
     packages=find_packages(),
     scripts=["deneyap"],
-    install_requires=["PyGObject", "serial", "requests", "pyyaml", "websockets"],
+    install_requires=["PyGObject", "serial",
+                      "requests", "pyyaml", "websockets", "coloredlogs"],
     data_files=data_files,
     author="Muhammet Halak",
     author_email="halak@vuhuv.com",
