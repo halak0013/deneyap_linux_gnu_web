@@ -1,3 +1,4 @@
 ui/deneyap.glade
 src/MainWindow.py
-src/Installer.py
+src/utils/Installer.py
+src/utils/Process.py
