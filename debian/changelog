@@ -1,4 +1,18 @@
-deneyap (1.0) stable; urgency=medium
+deneyap (0.3) beta; urgency=medium
+
+  [ Muhammet Halak ]
+  * when deneyap core installing, added log and state on ui
+  * fixed command runner method
+  * fixed a lot of sencronization bug
+  * added file path and configs
+  * added and fixied installer procces 
+  * setted websocekt connection procces
+  * added logging
+  * ui design is changing
+
+ -- Muhammet Halak <halak@vuhuv.com>  Sat, 10 Feb 2023 21:07:13 +0300
+
+deneyap (0.1) beta; urgency=medium
 
   [ Muhammet Halak ]
   * Deneyap board list
