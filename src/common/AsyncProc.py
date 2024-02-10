@@ -1,6 +1,7 @@
 import json
 import re
 from common.Logging import Log
+from static.configs import Configs as cf
 import requests
 import os
 import subprocess
@@ -41,7 +42,7 @@ class CommandRunner:
         )
 
         output = ""
-        while True:
+        while cf.is_main_thread_running:
             line = process.stdout.readline()
             if not line:
                 break
@@ -58,7 +59,8 @@ class CommandRunner:
         error = process.stderr.read()
         if error:
             self.l.log("Subprocces error: " + error.decode(), "e")
-
+        if cf.is_main_thread_running:
+            process.terminate()
         return output
 
     def remove_ansi_color_codes(self, text):

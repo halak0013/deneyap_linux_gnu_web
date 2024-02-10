@@ -1,6 +1,8 @@
 class Configs:
     port = ""
     board = ""
+    is_main_thread_running = True
+    is_websocket_running = True
 
     deneyap_esp="deneyap:esp32:"
 

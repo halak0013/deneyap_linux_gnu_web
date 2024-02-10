@@ -3,6 +3,7 @@ from utils.socket_con.SerialMonitorWebsocket import SerialMonitorWebsocket
 from utils.socket_con.WebSocket import WebSocket
 from utils.Installer import Installer
 from utils.Process import Process
+from static.configs import Configs as cf
 from threading import Thread
 import locale
 from locale import gettext as _
@@ -66,6 +67,7 @@ class MainWindow(Gtk.Window):
     def init_variables(self):
         self.ins = Installer(self.dialog_info)
         self.pro = Process(self.message_dialog_port)
+        self.is_reset_clicked = False
 
         self.indicator = AppIndicator3.Indicator.new(
             "notifier",
@@ -158,15 +160,31 @@ class MainWindow(Gtk.Window):
     def on_btn_msg_ok_clicked(self, b):
         asyncio.run(self.ins.add_port_permission(self.message_dialog_port))
 
+    def on_btn_reset_clicked(self, b):
+        self.dialog_info.set_visible(True)
+        self.dialog_info.set_markup(
+            _("Are you sure you want to remove files and reset it?"))
+
     def on_bt_dialog_info_clicked(self, b):
         self.dialog_info.set_visible(False)
+        if not self.is_reset_clicked:
+            self.is_reset_clicked = True
+            cf.is_websocket_running = False
+            self.pro.reset_system()
+            self.stack_main.set_visible_child_name("install")
 
     def destroy(self, b):
+        print("destroy")
+        cf.is_main_thread_running = False
+        cf.is_websocket_running = False
         self.window.destroy()
+        import signal
+        os.kill(os.getpid(), signal.SIGKILL)
 
     def on_delete_event(self, widget, event):
         # it hides the window
         self.window.hide_on_delete()
+        
         return True
 
     def on_open_item_activate(self, b):

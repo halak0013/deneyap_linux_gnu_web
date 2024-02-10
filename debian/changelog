@@ -1,3 +1,13 @@
+deneyap (0.4) beta; urgency=medium
+
+  [ Muhammet Halak ]
+
+  * fixed app exists thread bug
+  * added reset system option
+  * 
+
+ -- Muhammet Halak <halak@vuhuv.com>  Sat, 10 Feb 2023 23:41:13 +0300
+
 deneyap (0.3) beta; urgency=medium
 
   [ Muhammet Halak ]

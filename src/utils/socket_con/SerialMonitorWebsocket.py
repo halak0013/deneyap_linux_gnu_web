@@ -23,7 +23,7 @@ class SerialMonitorWebsocket:
 
     async def mainLoop(self, websocket, path):
         self.websocket = websocket
-        while True:
+        while cf.is_websocket_running and cf.is_main_thread_running:
             try:
                 if not self.serialOpen:
                     await asyncio.sleep(.3)
@@ -38,7 +38,6 @@ class SerialMonitorWebsocket:
                     if self.serialOpen:
                         self.l.log("Serial Monitor Timeout Error: ", str(e))
                         await self.serialLog()
-
                 await self.commandParser(body)
 
             except Exception as e:
@@ -46,6 +45,8 @@ class SerialMonitorWebsocket:
                 bodyToSend = {"command": "serialLog", "log": str(e)+"\n"}
                 bodyToSend = json.dumps(bodyToSend)
                 await self.websocket.send(bodyToSend)
+        await self.websocket.close()
+        self.l.log("Serial Monitor Websocket closed", "i")
 
     async def commandParser(self, body: dict) -> None:
 

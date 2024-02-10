@@ -3,6 +3,7 @@ import json
 import websockets
 from multiprocessing import Queue
 from common.Logging import Log
+from static.configs import Configs as cf
 
 
 class WebSocket:
@@ -10,7 +11,7 @@ class WebSocket:
     def __init__(self, pro):
         print("WebSocket started")
         self.queue = Queue() # TODO: ileride eklenebilir
-        self.log = Log()
+        self.l = Log()
         self.websocket = None
         self.pro = pro
     async def start_server(self, url, port):
@@ -20,17 +21,18 @@ class WebSocket:
         # TODO: kuyruk eklenebilir
         self.websocket = websocket
         try:
-            while True:
+            while cf.is_websocket_running and cf.is_main_thread_running:
                 body = {"command": None}
                 #msg = await asyncio.wait_for(websocket.recv(), timeout=5)
                 msg = await websocket.recv()
                 print("msg", msg)
                 body = json.loads(msg)
                 await self.commandParser(body)
-
+            await self.websocket.close()
+            self.l.log("Serial Monitor Websocket closed", "i")
         except Exception as e:
             print("armut")
-            self.log.log(str(e), "e")
+            self.l.log(str(e), "e")
             print(e)
             raise e
 

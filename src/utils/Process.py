@@ -12,7 +12,7 @@ class Process:
     def __init__(self, messageDialog):
         self.cr = CommandRunner()
         self.messageDialog = messageDialog
-        self.l=Log()
+        self.l = Log()
 
     async def compile_code(self, board, code, websocket):
         cf.board = board
@@ -21,9 +21,10 @@ class Process:
         with open("deneyap_pro.ino", "w") as f:
             f.write(code)
         os.chdir(p.deneyap_p_f)
-        bodyToSend = {"command": "cleanConsoleLog", "log": "Compling Code...\n"}
+        bodyToSend = {"command": "cleanConsoleLog",
+                      "log": "Compling Code...\n"}
         await websocket.send(json.dumps(bodyToSend))
-        await self.cr.run_command(co.compile_code(cf.deneyap_esp + board), websocket = websocket)
+        await self.cr.run_command(co.compile_code(cf.deneyap_esp + board), websocket=websocket)
 
     async def compile_upload(self, board, port, code, websocket):
         cf.port = port
@@ -31,7 +32,7 @@ class Process:
         await self.check_port_permission()
         await self.compile_code(board, code, websocket)
 
-        await self.cr.run_command(co.upload_code(port, cf.deneyap_esp + board), websocket = websocket)
+        await self.cr.run_command(co.upload_code(port, cf.deneyap_esp + board), websocket=websocket)
 
     async def board_infos(self):
         boards = await self.cr.run_command(co.a_cli_board_list)
@@ -76,13 +77,13 @@ class Process:
                 _("You don't have permission to access the port.\nDo you want to give permission?"))
             return False
         return True
-    
+
     async def ui_board_infos(self):
         b_info = await self.board_infos()
-        res="\n"
+        res = "\n"
 
         for b in json.loads(b_info)["boards"]:
-            res += b["port"] +": "+ _("Unknown") + "\n"
+            res += b["port"] + ": " + _("Unknown") + "\n"
         res = _("App version")+f": {cf.AGENT_VERSION}: {res}"
         return res
 
@@ -91,3 +92,6 @@ class Process:
         await self.cr.run_command(co.add_port_permission(cf.port))
         self.messageDialog.set_visible(False)
         self.messageDialog.set_markup("")
+
+    def reset_system(self):
+        os.system("rm -rf " + p.arduino15_path)

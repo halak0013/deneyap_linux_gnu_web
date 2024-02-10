@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-10 21:20+0300\n"
+"POT-Creation-Date: 2024-02-10 23:41+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Muhammet Halak <halak@vuhuv.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
 #: ui/deneyap.glade:54 ui/deneyap.glade:107
 msgid "Ok"
 msgstr "نعم"
@@ -24,15 +25,19 @@ msgstr "نعم"
 msgid "Cancel"
 msgstr "يلغي"
 
-#: ui/deneyap.glade:193
+#: ui/deneyap.glade:196
 msgid "Boards informations:"
 msgstr "معلومات المجالس:"
 
-#: ui/deneyap.glade:229
+#: ui/deneyap.glade:224
+msgid "Remove all system and reset"
+msgstr "إزالة كافة النظام وإعادة تعيين"
+
+#: ui/deneyap.glade:246
 msgid "main"
 msgstr "رئيسي"
 
-#: ui/deneyap.glade:242
+#: ui/deneyap.glade:259
 msgid ""
 "You don't have Deneyap compiler on your system.\n"
 "Do you want to install?"
@@ -40,37 +45,41 @@ msgstr ""
 "ليس لديك مترجم دينياب على نظامك.\n"
 "هل تريد التثبيت؟"
 
-#: ui/deneyap.glade:254
+#: ui/deneyap.glade:271
 msgid "Install"
 msgstr "ثَبَّتَ"
 
-#: ui/deneyap.glade:282
+#: ui/deneyap.glade:299
 msgid "install"
 msgstr "ثَبَّتَ"
 
-#: ui/deneyap.glade:348
+#: ui/deneyap.glade:365
 msgid "Detial"
 msgstr "ديتيال"
 
-#: ui/deneyap.glade:362
+#: ui/deneyap.glade:379
 msgid "None"
 msgstr "لا أحد"
 
-#: ui/deneyap.glade:377
+#: ui/deneyap.glade:394
 msgid "wait"
 msgstr "انتظر"
 
-#: ui/deneyap.glade:394
+#: ui/deneyap.glade:411
 msgid "Deneyap"
 msgstr "دَنَيْيَاب"
 
-#: src/MainWindow.py:81
+#: src/MainWindow.py:83
 msgid "Quit"
 msgstr "يترك"
 
-#: src/MainWindow.py:85
+#: src/MainWindow.py:87
 msgid "Open"
 msgstr "يفتح"
+
+#: src/MainWindow.py:166
+msgid "Are you sure you want to remove files and reset it?"
+msgstr "هل أنت متأكد أنك تريد إزالة الملفات وإعادة تعيينها؟"
 
 #: src/utils/Installer.py:35
 msgid "Generating project paths...\n"
@@ -101,18 +110,17 @@ msgid ""
 "Installing succesed, please close Deneyap app from your taskbar icon and "
 "restart it\n"
 msgstr ""
-"تم التثبيت بنجاح، يرجى إغلاق تطبيق دَنَيْيَاب من أيقونة شريط المهام وإعادة "
-"تشغيله"
+"تم التثبيت بنجاح، يرجى إغلاق تطبيق دَنَيْيَاب من أيقونة شريط المهام وإعادة تشغيله"
 
 #: src/utils/Installer.py:66
 msgid "An error occured."
 msgstr "حدث خطأ."
 
-#: src/utils/Process.py:39 src/utils/Process.py:85
+#: src/utils/Process.py:40 src/utils/Process.py:86
 msgid "Unknown"
 msgstr "مجهول"
 
-#: src/utils/Process.py:76
+#: src/utils/Process.py:77
 msgid ""
 "You don't have permission to access the port.\n"
 "Do you want to give permission?"
@@ -120,6 +128,6 @@ msgstr ""
 "ليس لديك إذن للوصول إلى المنفذ.\n"
 "هل تريد إعطاء الإذن؟"
 
-#: src/utils/Process.py:86
+#: src/utils/Process.py:87
 msgid "App version"
 msgstr "نسخة التطبيق"

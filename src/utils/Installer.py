@@ -69,7 +69,7 @@ class Installer:
 
     def preaparing(self, text):
         GLib.idle_add(self.lb_st.set_text, text)
-        GLib.idle_add(self.lb_op.set_text, text+self.lb_op.get_text())
+        GLib.idle_add(self.lb_op.set_text, text+ "\n" +self.lb_op.get_text())
         # lb_op.set_text(text+lb_op.get_text())
         self.l.log(text, "i")
 
