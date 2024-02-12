@@ -88,7 +88,7 @@ setup(
     packages=find_packages(),
     scripts=["deneyap"],
     install_requires=["PyGObject", "serial",
-                      "requests", "pyyaml", "websockets", "coloredlogs"],
+                      "requests", "websockets", "coloredlogs"],
     data_files=data_files,
     author="Muhammet Halak",
     author_email="halak@vuhuv.com",

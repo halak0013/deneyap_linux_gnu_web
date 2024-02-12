@@ -95,3 +95,6 @@ class Process:
 
     def reset_system(self):
         os.system("rm -rf " + p.arduino15_path)
+
+    def open_log(self):
+        os.system("xdg-open " + p.log_path)

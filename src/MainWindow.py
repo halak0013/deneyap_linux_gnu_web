@@ -87,6 +87,10 @@ class MainWindow(Gtk.Window):
         self.open_item = Gtk.MenuItem(label=_("Open"))
         self.open_item.connect("activate", self.on_open_item_activate)
         self.menu.append(self.open_item)
+        
+        self.log_item = Gtk.MenuItem(label=_("Log"))
+        self.log_item.connect("activate", self.on_log_item_activate)
+        self.menu.append(self.log_item)
 
         self.menu.show_all()
         self.indicator.set_menu(self.menu)
@@ -189,3 +193,6 @@ class MainWindow(Gtk.Window):
 
     def on_open_item_activate(self, b):
         self.window.show()
+
+    def on_log_item_activate(self, b):
+        self.pro.open_log()

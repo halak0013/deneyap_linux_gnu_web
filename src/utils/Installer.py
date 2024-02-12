@@ -1,5 +1,4 @@
 from gi.repository import Gtk, GLib
-import yaml
 from locale import gettext as _
 from static.commands import Commands as co
 from static.file_paths import Paths as p
@@ -47,10 +46,6 @@ class Installer:
             self.preaparing(_(
                 "Downloading Deneyap Board core...\n"))
             await self.cr.run_command(co.a_cil_add_deneyap_url, print_on_ui = self.show_output)
-            # t_downlod = asyncio.create_task(self.cr.run_command(co.a_cil_add_deneyap_url))
-
-            # self.configure_yaml()
-            # await t_downlod
 
             self.preaparing(_(
                 "Deneyap Board core installing...\n"))
@@ -75,12 +70,3 @@ class Installer:
 
     def show_output(self, text):
         GLib.idle_add(self.lb_st.set_text, text)
-
-    def configure_yaml(self):
-        with open(p.d_yaml_path, 'r') as file:
-            config = yaml.safe_load(file)
-
-        config['board_manager']['additional_urls'].append(p.deneyap_url)
-
-        with open(p.d_yaml_path, 'w') as file:
-            yaml.dump(config, file)
