@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-10 23:41+0300\n"
+"POT-Creation-Date: 2024-02-17 00:47+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Muhammet Halak <halak@vuhuv.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -77,50 +77,66 @@ msgstr "يترك"
 msgid "Open"
 msgstr "يفتح"
 
-#: src/MainWindow.py:166
+#: src/MainWindow.py:91
+msgid "Log"
+msgstr "سجل"
+
+#: src/MainWindow.py:170
 msgid "Are you sure you want to remove files and reset it?"
 msgstr "هل أنت متأكد أنك تريد إزالة الملفات وإعادة تعيينها؟"
 
-#: src/utils/Installer.py:35
+#: src/utils/Installer.py:34
 msgid "Generating project paths...\n"
 msgstr "إنشاء مسارات المشروع..."
 
-#: src/utils/Installer.py:40
+#: src/utils/Installer.py:39
 msgid "Downloading arduino-cli and installing...\n"
 msgstr "تحميل وتثبيت الاردوينو cli..."
 
-#: src/utils/Installer.py:44
+#: src/utils/Installer.py:43
 msgid "Deneyap Board configuration preaparing...\n"
 msgstr "إعداد تكوين لوحة دَنَيْيَاب..."
 
-#: src/utils/Installer.py:48
+#: src/utils/Installer.py:47
 msgid "Downloading Deneyap Board core...\n"
 msgstr "جارٍ تنزيل دَنَيْيَاب لوحة الأساسية..."
 
-#: src/utils/Installer.py:56
+#: src/utils/Installer.py:51
 msgid "Deneyap Board core installing...\n"
 msgstr "تثبيت لوحة دَنَيْيَاب الأساسية..."
 
-#: src/utils/Installer.py:60
+#: src/utils/Installer.py:55
 msgid "Deneyap Board index updating...\n"
 msgstr "تحديث فهرس لوحة دَنَيْيَاب..."
 
-#: src/utils/Installer.py:63
+#: src/utils/Installer.py:58
 msgid ""
 "Installing succesed, please close Deneyap app from your taskbar icon and "
 "restart it\n"
 msgstr ""
 "تم التثبيت بنجاح، يرجى إغلاق تطبيق دَنَيْيَاب من أيقونة شريط المهام وإعادة تشغيله"
 
-#: src/utils/Installer.py:66
+#: src/utils/Installer.py:61
 msgid "An error occured."
 msgstr "حدث خطأ."
 
-#: src/utils/Process.py:40 src/utils/Process.py:86
+#: src/utils/Process.py:25
+msgid "Compiling Code"
+msgstr "تجميع الكود"
+
+#: src/utils/Process.py:28
+msgid "Compilation done"
+msgstr "تم التجميع"
+
+#: src/utils/Process.py:38
+msgid "Uploading completed"
+msgstr "تم الرفع"
+
+#: src/utils/Process.py:44 src/utils/Process.py:90
 msgid "Unknown"
 msgstr "مجهول"
 
-#: src/utils/Process.py:77
+#: src/utils/Process.py:81
 msgid ""
 "You don't have permission to access the port.\n"
 "Do you want to give permission?"
@@ -128,6 +144,6 @@ msgstr ""
 "ليس لديك إذن للوصول إلى المنفذ.\n"
 "هل تريد إعطاء الإذن؟"
 
-#: src/utils/Process.py:87
+#: src/utils/Process.py:91
 msgid "App version"
 msgstr "نسخة التطبيق"

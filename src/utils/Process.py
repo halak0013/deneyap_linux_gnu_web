@@ -22,9 +22,11 @@ class Process:
             f.write(code)
         os.chdir(p.deneyap_p_f)
         bodyToSend = {"command": "cleanConsoleLog",
-                      "log": "Compling Code...\n"}
+                      "log": _("Compiling Code")+"...\n"}
         await websocket.send(json.dumps(bodyToSend))
         await self.cr.run_command(co.compile_code(cf.deneyap_esp + board), websocket=websocket)
+        await websocket.send(json.dumps({"command": "consoleLog", "log": _("Compilation done")+"\n"}))
+
 
     async def compile_upload(self, board, port, code, websocket):
         cf.port = port
@@ -33,6 +35,8 @@ class Process:
         await self.compile_code(board, code, websocket)
 
         await self.cr.run_command(co.upload_code(port, cf.deneyap_esp + board), websocket=websocket)
+        await websocket.send(json.dumps({"command": "consoleLog", "log": _("Uploading completed")+"\n"}))
+
 
     async def board_infos(self):
         boards = await self.cr.run_command(co.a_cli_board_list)
