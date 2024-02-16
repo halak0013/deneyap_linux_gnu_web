@@ -1,3 +1,13 @@
+deneyap (0.5) beta; urgency=medium
+
+  [ Muhammet Halak ]
+
+  * serial comminication bug fixing, future improvment, performance optimization
+  * added some user interction information
+  * updated Türkçe and عربي translation
+
+ -- Muhammet Halak <halak@vuhuv.com>  Sat, 17 Feb 2023 01:03:13 +0300
+
 deneyap (0.4.1) beta; urgency=medium
 
   [ Muhammet Halak ]
