@@ -16,6 +16,7 @@ class SerialMonitorWebsocket:
         self.websocket = None
         self.serialOpen = False
         self.ser = None
+        self.log_loop = None
         self.pro = pro
 
     async def start_server(self, url, port):
@@ -29,7 +30,7 @@ class SerialMonitorWebsocket:
                     await asyncio.sleep(.3)
                 body = {"command": None}
                 try:
-                    message = await asyncio.wait_for(self.websocket.recv(), timeout=0.000001)
+                    message = await websocket.recv()
                     self.l.log(
                         f"SerialMonitorWebsocket received {message}", "i")
                     body = json.loads(message)
@@ -38,6 +39,7 @@ class SerialMonitorWebsocket:
                     if self.serialOpen:
                         self.l.log("Serial Monitor Timeout Error: ", str(e))
                         await self.serialLog()
+                    raise e
                 await self.commandParser(body)
 
             except Exception as e:
@@ -45,6 +47,7 @@ class SerialMonitorWebsocket:
                 bodyToSend = {"command": "serialLog", "log": str(e)+"\n"}
                 bodyToSend = json.dumps(bodyToSend)
                 await self.websocket.send(bodyToSend)
+                raise e
         await self.websocket.close()
         self.l.log("Serial Monitor Websocket closed", "i")
 
@@ -88,6 +91,7 @@ class SerialMonitorWebsocket:
             self.ser = serial.Serial()
             self.ser.baudrate = baudRate
             self.ser.port = port
+            self.log_loop = asyncio.create_task(self.serial_log_loop())
 
             if cf.board == cf.deneyapKart:
                 self.ser.setDTR(False)
@@ -115,9 +119,22 @@ class SerialMonitorWebsocket:
             self.ser.close()
             bodyToSend = {"command": "closeSerialMonitor"}
             bodyToSend = json.dumps(bodyToSend)
+            self.log_loop.cancel()
+            print("log loop cancelled")
             await self.websocket.send(bodyToSend)
 
         self.serialOpen = False
+
+    async def serial_log_loop(self):
+        while self.serialOpen and self.ser is not None:
+            try:
+                if self.ser.in_waiting > 0:
+                    await self.serialLog()
+                else:
+                    await asyncio.sleep(0.05)
+            except serial.SerialException as e:
+                self.l.log(e, "e")
+                await asyncio.sleep(1)
 
     async def serialLog(self) -> None:
         if self.serialOpen and self.ser != None:
@@ -131,6 +148,7 @@ class SerialMonitorWebsocket:
                 return
             if line == "":
                 return
+            print(line)
             bodyToSend = {"command": "serialLog", "log": line}
             bodyToSend = json.dumps(bodyToSend)
             await self.websocket.send(bodyToSend)
