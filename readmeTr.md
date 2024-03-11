@@ -1,4 +1,4 @@
-[text](readme.md)
+[Türkçe](readmeTr.md) --- [English](readme.md)
 # Pardus and Debian Deneyap iletişim programı
 
 [Deneyap Board](https://deneyapkart.org/deneyapkart/deneyapblok/) ile kartlarınız arasındaki iletişimi sağlayacağın
