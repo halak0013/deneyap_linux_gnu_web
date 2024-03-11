@@ -1,3 +1,16 @@
+deneyap (0.7) beta; urgency=medium
+
+  [ Muhammet Halak ]
+
+  * a lot of optimization
+  * fixed port permission problem
+  * fixed some subprocces command
+  * fixed some log properties and added additional log feature
+  * fixed some user interface bug
+  * updated Türkçe and عربي translation
+
+ -- Muhammet Halak <halak@vuhuv.com>  Sat, 11 March 2024 18:39:13 +0300
+
 deneyap (0.5) beta; urgency=medium
 
   [ Muhammet Halak ]
@@ -6,7 +19,7 @@ deneyap (0.5) beta; urgency=medium
   * added some user interction information
   * updated Türkçe and عربي translation
 
- -- Muhammet Halak <halak@vuhuv.com>  Sat, 17 Feb 2023 01:03:13 +0300
+ -- Muhammet Halak <halak@vuhuv.com>  Sat, 17 Feb 2024 01:03:13 +0300
 
 deneyap (0.4.1) beta; urgency=medium
 
@@ -15,7 +28,7 @@ deneyap (0.4.1) beta; urgency=medium
   * arm support
   * added log open button on tray iccon
 
- -- Muhammet Halak <halak@vuhuv.com>  Sat, 12 Feb 2023 14:19:13 +0300
+ -- Muhammet Halak <halak@vuhuv.com>  Sat, 12 Feb 2024 14:19:13 +0300
 
 deneyap (0.4) beta; urgency=medium
 
@@ -25,7 +38,7 @@ deneyap (0.4) beta; urgency=medium
   * added reset system option
   * 
 
- -- Muhammet Halak <halak@vuhuv.com>  Sat, 10 Feb 2023 23:41:13 +0300
+ -- Muhammet Halak <halak@vuhuv.com>  Sat, 10 Feb 2024 23:41:13 +0300
 
 deneyap (0.3) beta; urgency=medium
 
@@ -39,7 +52,7 @@ deneyap (0.3) beta; urgency=medium
   * added logging
   * ui design is changing
 
- -- Muhammet Halak <halak@vuhuv.com>  Sat, 10 Feb 2023 21:07:13 +0300
+ -- Muhammet Halak <halak@vuhuv.com>  Sat, 10 Feb 2024 21:07:13 +0300
 
 deneyap (0.1) beta; urgency=medium
 
@@ -51,4 +64,4 @@ deneyap (0.1) beta; urgency=medium
   * static command, paths and permission defined
   * basic ui designed
 
- -- Muhammet Halak <halak@vuhuv.com>  Sun, 28 Jan 2023 00:00:13 +0300
+ -- Muhammet Halak <halak@vuhuv.com>  Sun, 28 Jan 2024 00:00:13 +0300

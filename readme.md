@@ -25,6 +25,10 @@ All you have to do is download the deb file, double click and install it. You wi
 
 ## Dependencies
 
+`sudo apt install python3-serial python3-requests python3-coloredlogs python3-websockets usbutils`
+
+or
+
 `pip install -r requirements.txt`
 
 # Running

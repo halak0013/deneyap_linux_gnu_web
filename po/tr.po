@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-17 00:47+0300\n"
+"POT-Creation-Date: 2024-03-11 18:30+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Muhammet Halak <halak@vuhuv.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -129,22 +129,29 @@ msgstr "Kod derleniyor"
 msgid "Compilation done"
 msgstr "Derleme tamamlandı"
 
-#: src/utils/Process.py:38
-msgid "Uploading completed"
-msgstr "Yükleme tamamlandı"
-
-#: src/utils/Process.py:44 src/utils/Process.py:90
+#: src/utils/Process.py:43 src/utils/Process.py:89
 msgid "Unknown"
 msgstr "Bilinmeyen"
 
-#: src/utils/Process.py:81
+#: src/utils/Process.py:77
+msgid "Compiling rejected. Try again"
+msgstr "Derleme reddedildi. Tekrar deneyin"
+
+#: src/utils/Process.py:80
+#, fuzzy
 msgid ""
 "You don't have permission to access the port.\n"
-"Do you want to give permission?"
+"Do you want to give permission?\n"
+"\n"
+"End of the procces your computer restart! Please save your imortant files"
 msgstr ""
 "Bağlantı noktasına erişim izniniz yok.\n"
 "İzin vermek istiyor musun?"
+"İşlemin sonunda bilgisayarınız yeniden başlayacak! Lütfen önemli dosyalarınızı kaydedin"
 
-#: src/utils/Process.py:91
+#: src/utils/Process.py:90
 msgid "App version"
 msgstr "Uygulama sürümü"
+
+#~ msgid "Uploading completed"
+#~ msgstr "Yükleme tamamlandı"

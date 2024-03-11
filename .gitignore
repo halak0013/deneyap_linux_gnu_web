@@ -163,3 +163,4 @@ cython_debug/
 *.glade~
 *.glade#
 
+ornekler/

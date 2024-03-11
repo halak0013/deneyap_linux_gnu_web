@@ -26,6 +26,10 @@ Tek yapmanız gereken deb dosyasını indirip çift tıklayıp kurmak. Karşın�
 
 ## Bağımlılıklar
 
+`sudo apt install python3-serial python3-requests python3-coloredlogs python3-websockets usbutils`
+
+veya
+
 `pip install -r requirements.txt`
 
 # Çalıştırmak için

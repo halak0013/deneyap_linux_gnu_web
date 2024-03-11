@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-17 00:47+0300\n"
+"POT-Creation-Date: 2024-03-11 18:30+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Muhammet Halak <halak@vuhuv.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -128,22 +128,29 @@ msgstr "تجميع الكود"
 msgid "Compilation done"
 msgstr "تم التجميع"
 
-#: src/utils/Process.py:38
-msgid "Uploading completed"
-msgstr "تم الرفع"
-
-#: src/utils/Process.py:44 src/utils/Process.py:90
+#: src/utils/Process.py:43 src/utils/Process.py:89
 msgid "Unknown"
 msgstr "مجهول"
 
-#: src/utils/Process.py:81
+#: src/utils/Process.py:77
+msgid "Compiling rejected. Try again"
+msgstr "رفض التجميع. حاول مرة أخرى"
+
+#: src/utils/Process.py:80
+#, fuzzy
 msgid ""
 "You don't have permission to access the port.\n"
-"Do you want to give permission?"
+"Do you want to give permission?\n"
+"\n"
+"End of the procces your computer restart! Please save your imortant files"
 msgstr ""
 "ليس لديك إذن للوصول إلى المنفذ.\n"
 "هل تريد إعطاء الإذن؟"
+"نهاية العملية يعيد تشغيل جهاز الكمبيوتر الخاص بك! يرجى حفظ ملفاتك المهمة"
 
-#: src/utils/Process.py:91
+#: src/utils/Process.py:90
 msgid "App version"
 msgstr "نسخة التطبيق"
+
+#~ msgid "Uploading completed"
+#~ msgstr "تم الرفع"
