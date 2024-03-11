@@ -15,12 +15,14 @@ class Commands:
 
     deneyap_board = 'lsusb | grep "Turkish Technnology Team Foundation"'
 
-    port_user_permission = "sudo adduser "+p.HOME.split("/")[2]+" dialout"
+    port_user_permission = "pkexec sudo adduser "+p.HOME.split("/")[2]+" dialout"
+
+    restart ="/sbin/reboot"
 
 
     @classmethod
     def add_port_permission(self, port):
-        return "sudo chmod a+rw " + port
+        return "pkexec sudo chmod a+rw " + port
 
     @classmethod
     def compile_code(self, board):
@@ -41,3 +43,14 @@ class Commands:
     @classmethod
     def download_lib(self, lib, version):
         return f"{p.arduino_cli} lib install \"{lib}\"@{version}"
+    @classmethod
+    def is_user_in_group(self):
+        groupname = "dialout"
+        username = p.HOME.split("/")[2]
+        with open('/etc/group', 'r') as file:
+            for line in file:
+                parts = line.split(':')
+                print(parts)
+                if parts[0] == groupname and username in parts[3]:
+                    return True
+        return False

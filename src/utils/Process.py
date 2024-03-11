@@ -14,7 +14,7 @@ class Process:
         self.messageDialog = messageDialog
         self.l = Log()
 
-    async def compile_code(self, board, code, websocket):
+    async def compile_code(self, board, code):
         cf.board = board
         p.file_check(p.deneyap_pro)
         os.chdir(p.deneyap_pro)
@@ -23,19 +23,18 @@ class Process:
         os.chdir(p.deneyap_p_f)
         bodyToSend = {"command": "cleanConsoleLog",
                       "log": _("Compiling Code")+"...\n"}
-        await websocket.send(json.dumps(bodyToSend))
-        await self.cr.run_command(co.compile_code(cf.deneyap_esp + board), websocket=websocket)
-        await websocket.send(json.dumps({"command": "consoleLog", "log": _("Compilation done")+"\n"}))
+        await cf.websocket.send(json.dumps(bodyToSend))
+        await self.cr.run_command(co.compile_code(cf.deneyap_esp + board), websocket=cf.websocket)
+        await cf.websocket.send(json.dumps({"command": "consoleLog", "log": _("Compilation done")+"\n"}))
 
 
-    async def compile_upload(self, board, port, code, websocket):
+    async def compile_upload(self, board, port, code):
         cf.port = port
         cf.board = board
-        await self.check_port_permission()
-        await self.compile_code(board, code, websocket)
-
-        await self.cr.run_command(co.upload_code(port, cf.deneyap_esp + board), websocket=websocket)
-        await websocket.send(json.dumps({"command": "consoleLog", "log": _("Uploading completed")+"\n"}))
+        if await self.check_port_permission():
+            await self.compile_code(board, code)
+            await self.cr.run_command(co.upload_code(port, cf.deneyap_esp + board), websocket=cf.websocket)
+        #await websocket.send(json.dumps({"command": "consoleLog", "log": _("Uploading completed")+"\n"}))
 
 
     async def board_infos(self):
@@ -74,11 +73,11 @@ class Process:
         return json.dumps(bodyToSend)
 
     async def check_port_permission(self):
-        res = await self.cr.run_command(co.check_port_permission(cf.port))
-        if 'rw' not in res.splitlines()[0].split()[0]:
+        if not os.access(cf.port, os.W_OK and os.R_OK) or not co.is_user_in_group():
+            await cf.websocket.send(json.dumps({"command": "consoleLog", "log": _("Compiling rejected. Try again")+"\n"}))
             self.messageDialog.set_visible(True)
             self.messageDialog.set_markup(
-                _("You don't have permission to access the port.\nDo you want to give permission?"))
+                _("You don't have permission to access the port.\nDo you want to give permission?\n\nEnd of the procces your computer restart! Please save your imortant files"))
             return False
         return True
 
@@ -92,10 +91,15 @@ class Process:
         return res
 
     async def add_port_permission(self):
-        await self.cr.run_command(co.port_user_permission)
-        await self.cr.run_command(co.add_port_permission(cf.port))
         self.messageDialog.set_visible(False)
-        self.messageDialog.set_markup("")
+        print("chmod", os.access(cf.port, os.W_OK and os.R_OK))
+        print("grup", co.is_user_in_group())
+        if not os.access(cf.port, os.W_OK and os.R_OK):
+            await self.cr.run_command(co.add_port_permission(cf.port))
+        if not co.is_user_in_group():
+            await self.cr.run_command(co.port_user_permission)
+
+        await self.cr.run_command(co.restart)
 
     def reset_system(self):
         os.system("rm -rf " + p.arduino15_path)

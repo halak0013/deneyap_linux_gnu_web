@@ -126,15 +126,21 @@ class SerialMonitorWebsocket:
         self.serialOpen = False
 
     async def serial_log_loop(self):
-        while self.serialOpen and self.ser is not None:
+        while self.serialOpen and self.ser != None:
             try:
                 if self.ser.in_waiting > 0:
                     await self.serialLog()
                 else:
-                    await asyncio.sleep(0.05)
+                    await asyncio.sleep(0.5)
             except serial.SerialException as e:
                 self.l.log(e, "e")
                 await asyncio.sleep(1)
+                #raise e
+            except Exception as e:
+                self.l.log(e, "e")
+                await asyncio.sleep(1)
+                await self.closeSerialMonitor()
+                #raise e
 
     async def serialLog(self) -> None:
         if self.serialOpen and self.ser != None:

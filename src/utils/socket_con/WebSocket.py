@@ -14,12 +14,17 @@ class WebSocket:
         self.l = Log()
         self.websocket = None
         self.pro = pro
+        self.board_infos = None
+
     async def start_server(self, url, port):
         await websockets.serve(self.mainLoop, url, port)
 
     async def mainLoop(self, websocket, path):
         # TODO: kuyruk eklenebilir
         self.websocket = websocket
+        cf.websocket = websocket
+        print("websocket started")
+        chck_board = asyncio.create_task(self.check_board())
         try:
             while cf.is_websocket_running and cf.is_main_thread_running:
                 body = {"command": None}
@@ -29,6 +34,7 @@ class WebSocket:
                 body = json.loads(msg)
                 await self.commandParser(body)
             await self.websocket.close()
+            chck_board.cancel()
             self.l.log("Serial Monitor Websocket closed", "i")
         except Exception as e:
             print("armut")
@@ -45,12 +51,13 @@ class WebSocket:
         else:
             await self.sendResponse()
         if command == "upload":
-            await self.pro.compile_upload(body['board'], body['port'], body["code"], self.websocket)
+            await self.pro.compile_upload(body['board'], body['port'], body["code"])
         elif command == "compile":
             #await self.pro.compile_upload(body['board'], body['port'], body["code"])
-            await self.pro.compile_code(body['board'], body['code'], self.websocket)
+            await self.pro.compile_code(body['board'], body['code'])
         elif command == "getBoards":
             res = await self.pro.board_infos()
+            self.board_infos = res
         elif command == "getVersion":
             res = await self.pro.get_version()
         elif command == "changeVersion":
@@ -71,3 +78,17 @@ class WebSocket:
         bodyToSend = {"command": "response"}
         bodyToSend = json.dumps(bodyToSend)
         await self.websocket.send(bodyToSend)
+
+    async def check_board(self):
+        while cf.is_websocket_running and cf.is_main_thread_running:
+            res = await self.pro.board_infos()
+            if res != None and res != self.board_infos:
+                print("res", res)
+                self.board_infos = res
+                await self.websocket.send(res)
+                await cf.upadet_board_fn()
+            else:
+                await asyncio.sleep(1)
+                continue
+            await asyncio.sleep(1)
+            continue

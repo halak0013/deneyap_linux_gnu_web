@@ -28,9 +28,11 @@ class AsyncFileDownloader:
 class CommandRunner:
     def __init__(self):
         self.l = Log()
+        self.old_log_c = ""
+        self.old_log_o = ""
 
     async def run_command(self, command, websocket=None, print_on_ui=None):
-        self.l.log("Running command: " + command, "i")
+
         process = subprocess.Popen(
             command,
             shell=True,
@@ -48,17 +50,25 @@ class CommandRunner:
                 break
             # Satır sonundaki newline karakterini kaldır
             line = line.rstrip()
-            self.l.log(line, "i")
             if print_on_ui:
                 print_on_ui(line)
             output += line + '\n'
             if websocket:
                 await websocket.send(json.dumps({"command": "consoleLog", "log": self.remove_ansi_color_codes(line)+"\n"}))
 
+        if output != self.old_log_o or command != self.old_log_c:
+        #if True:
+            self.l.log("Command output:\n" + output, "i")
+            self.l.log("Running command:\n" + command, "i")
+            self.old_log_c = command
+            self.old_log_o = output
+
         # Hata çıktısını oku
         error = process.stderr.read()
         if error:
-            self.l.log("Subprocces error: " + error.decode(), "e")
+            self.l.log("Subprocces error: " + error, "e")
+            #hata her zaman olabilir. isteller dışında da gönderilmesi gerekibilir
+            await cf.websocket.send(json.dumps({"command": "consoleLog", "log": self.remove_ansi_color_codes(error)+"\n"}))
         if cf.is_main_thread_running:
             process.terminate()
         return output

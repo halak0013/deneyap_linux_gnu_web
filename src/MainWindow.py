@@ -100,6 +100,7 @@ class MainWindow(Gtk.Window):
         else:
             self.stack_main.set_visible_child_name("main")
             asyncio.run(self.board_info())
+            cf.upadet_board_fn = self.board_info
             Thread(target=self.startWebsocket).start()
 
     def startWebsocket(self):
@@ -140,10 +141,9 @@ class MainWindow(Gtk.Window):
         GLib.idle_add(self.lb_board_info.set_text, b_info)
 
     def on_btn_about_clicked(self, b):
-        self.dialog_about.set_visible(True)
-
-    def on_cmb_board_changed(self, c):
-        GLib.idle_add(asyncio.run(self.ins.board_name.keys))
+        #https://github.com/pardus/pardus-image-writer/blob/master/src/MainWindow.py#L221
+        self.dialog_about.run()
+        self.dialog_about.hide()
 
     def on_btn_install_clicked(self, b):
         self.stack_main.set_visible_child_name("wait")
@@ -162,7 +162,7 @@ class MainWindow(Gtk.Window):
         self.message_dialog_port.set_visible(False)
 
     def on_btn_msg_ok_clicked(self, b):
-        asyncio.run(self.ins.add_port_permission(self.message_dialog_port))
+        asyncio.run(self.pro.add_port_permission())
 
     def on_btn_reset_clicked(self, b):
         self.dialog_info.set_visible(True)

@@ -3,6 +3,8 @@ class Configs:
     board = ""
     is_main_thread_running = True
     is_websocket_running = True
+    websocket = None
+    upadet_board_fn = None
 
     deneyap_esp="deneyap:esp32:"
 
@@ -13,4 +15,4 @@ class Configs:
     deneyapMiniv2 = "dym_mpv20"
     deneyapKart1Av2 = "dydk1a_mpv20"
 
-    AGENT_VERSION = "1.0.3"
+    AGENT_VERSION = "1.0.1"
